@@ -15,7 +15,7 @@ precision highp float;
 #iUniform float offsetY = 0.5
 #iUniform float offsetX = 0.5
 #iUniform float size = 0.3
-#iUniform float scale = 0.1
+#iUniform float scale = 0.5
 #iUniform float intensity = 1.0
 
 
@@ -66,29 +66,33 @@ void main() {
     vec2 uv = uv0 - 0.5;
     if(iResolution.x<iResolution.y)
      uv.x *=iResolution.x/iResolution.y;
-     else
+    else
      uv.y *=iResolution.y/iResolution.x;
 
     float mouse_dist = length(uv-mouse_uv);
     // Draw the texture
 	  vec4 Col1 = texture2D(iChannel0, uv0);
   
-    
     // Draw the outline of the glass
     //Draw a zoomed-in version of the texture
-    vec4 curColor = texture(iChannel0, (uv0 - (mouse_uv+0.5)) / (1.0 + size)+(mouse_uv+0.5));
+
+    /// 推到过程
+    /// vec2 newUV0 
+    /// (newUV0 - vec2(offsetX,offsetY)) * (1 + scale) = uv0 - vec2(offsetX,offsetY)
+    /// newUV0 = (uv0 - vec2(offsetX,offsetY)) / (1.0 + scale) + vec2(offsetX,offsetY) 
+
+    vec2 newUV0 = (uv0 - vec2(offsetX,offsetY)) / (1.0 + scale) + vec2(offsetX,offsetY);
+
+    vec4 curColor = texture(iChannel0, newUV0);
     vec4 resultColorout = lm_take_effect_filter(iChannel1,Col1,intensity);
     // vec4 Col2=texture2D(outsideImageTexture, (uv0 + mouse_uv) / 2.0);
-    gl_FragColor = mix(curColor,resultColorout,smoothstep(size2-0.001,size2+0.001,mouse_dist));
-    // gl_FragColor = mix(curColor,Col1,smoothstep(size-0.001,size+0.001,mouse_dist));;
-    float circleW=line;
-    float circle=smoothstep(size2-circleW,size2,mouse_dist)*smoothstep(size2+circleW,size2,mouse_dist);
-    circle*=circle;
+    gl_FragColor = mix(curColor,resultColorout, mouse_dist > size2 ? 1. : 0.);
+    // gl_FragColor = mix(curColor,Col1,smoothstep(size-0.001,size+0.001,mouse_dist));
+    // float circleW=line;
+    float circle=smoothstep(size2-line,size2,mouse_dist)*smoothstep(size2+line,size2,mouse_dist);
+    // circle*=circle;
     gl_FragColor = mix(gl_FragColor,vec4(1.0),circle);
     gl_FragColor.a = Col1.a;
 
-
-
     // gl_FragColor = curColor;
-    
 }
