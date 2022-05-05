@@ -18,7 +18,7 @@
 const float PI = 3.1415926;
 
 #iChannel0 "file://followw813654.jpeg"
-#iChannel1 "file://mask1.png"
+#iChannel1 "file://mask.png"
 
 vec2 rotation(vec2 uv, float angle, float ratio)
 {
@@ -65,6 +65,9 @@ void main()
 
     vec2 col = mask.rg;
     // 怎么理解 ？  根据 mask图的 作图颜色搭配 动态调整
+    // 第1层c00d00 第2层800000~80ff00 第3层400000~40ff00 第4层000000~00ff00
+    // R * 4 + G 算下来 从 0 到 781 
+    // 781 = 12 * 16 * 4 + 13
     float alpha = (col.r * 4.0 * 256.0 + col.g  * 255.0) / 781.0;
     alpha = smoothstep(0.49 - abs(sin(iTime/2.)), 0.51 + abs(sin(iTime/2.)), alpha);
     if (iReverse > .5) {
