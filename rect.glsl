@@ -21,8 +21,8 @@
 #iUniform float _H = 0.5
 
 #iUniform float _A = 0.
-#iUniform float _C = 0.
-#iUniform float _F = 0.0
+#iUniform float _C = 1.
+#iUniform float _F = 1.
 
 uniform float iPlatform_iOS;
 
@@ -35,8 +35,8 @@ void main(void)
     vec2 u_center = vec2(_X, _Y);
     vec2 u_size = vec2(_W, _H) * .5;
     float u_rotate = 360. * PI / 180. * _A;
-    float u_roundCorner = _C;
-    float u_diff = _F;
+    float u_roundCorner = _C ;
+    float u_diff = _F * abs(sin(iTime));
 
     float u_aspect = iResolution.x / iResolution.y;;
     vec2 texcoord0 = gl_FragCoord.xy/iResolution.xy;
@@ -66,24 +66,48 @@ void main(void)
     else
     {
         /// 懵逼了 ？？？ 
-        float a = dot(u_circleCenter, u_circleCenter) - u_circleRadius * u_circleRadius;
-        float b = -2.0 * dot(samp, u_circleCenter);
-        float c = dot(samp, samp);
-        if (abs(a) < 0.00000001)
-        {
-            if (abs(b) < 0.00000001)
-            {
-                alpha = 100.0;
-            }
-            else
-            {
-                alpha = -c / b;
-            }
-        }
-        else
-        {
-            alpha = (-b - sqrt(b * b - 4.0 * a * c)) / (2.0 * a);
-        }
+        // float a = dot(u_circleCenter, u_circleCenter) - u_circleRadius * u_circleRadius;
+        // float b = -2.0 * dot(samp, u_circleCenter);
+        // float c = dot(samp, samp);
+        // if (abs(a) < 0.00000001)
+        // {
+        //     if (abs(b) < 0.00000001)
+        //     {
+        //         alpha = 100.0;
+        //     }
+        //     else
+        //     {
+        //         alpha = -c / b;
+        //     }
+        // }
+        // else
+        // {
+        //     alpha = (-b - sqrt(b * b - 4.0 * a * c)) / (2.0 * a);
+        // }
+
+        /// 推导过程 看图  51c2c9406d0e2af732359b4b633d125d.jpg
+
+        float a = 1.0;
+        float b = -2. * dot(samp, u_circleCenter) / sqrt(dot(samp, samp)) ;
+        float c = (dot(u_circleCenter, u_circleCenter) - u_circleRadius * u_circleRadius);
+
+        alpha = sqrt(dot(samp, samp)) / ( (-b + sqrt(b * b - 4.0 * a * c)) / (2.0 * a) );
+
+        /// 以下反推 JY 的abc     
+        // float a = sqrt(dot(samp, samp));
+        // float b = -2. * dot(samp, u_circleCenter);
+        // float c = (dot(u_circleCenter, u_circleCenter) - u_circleRadius * u_circleRadius) * sqrt(dot(samp, samp));
+
+        // alpha = sqrt(dot(samp, samp)) * 2.0 * a / (-b + sqrt(b * b - 4.0 * a * c));
+        // alpha = sqrt(dot(samp, samp)) * 2.0 *a * (-b - sqrt(b * b - 4.0 * a * c)) / ((-b + sqrt(b * b - 4.0 * a * c)) * (-b - sqrt(b * b - 4.0 * a * c)));
+        // alpha = sqrt(dot(samp, samp)) * 2.0 *a * (-b - sqrt(b * b - 4.0 * a * c)) / (4. *a *c);
+        // alpha = sqrt(dot(samp, samp)) *  (-b - sqrt(b * b - 4.0 * a * c)) / (2. *c);
+        
+        // alpha = (-b - sqrt(b * b - 4.0 * a * c)) / (2. *c / sqrt(dot(samp, samp)));
+
+        // float a_ = dot(samp, samp);
+        // float c_ = (dot(u_circleCenter, u_circleCenter) - u_circleRadius * u_circleRadius);
+        // alpha = (-b - sqrt(b * b - 4.0 * a_ * c_)) / (2. *c_);
     }
     alpha = clamp(smoothstep(0.995 - u_diff, 1.005 + u_diff, alpha), 0.0, 1.0);
     gl_FragColor = texture(iChannel0, texcoord0) * (1. - alpha);
