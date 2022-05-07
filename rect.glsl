@@ -86,6 +86,7 @@ void main(void)
         // }
 
         /// 推导过程 看图  51c2c9406d0e2af732359b4b633d125d.jpg
+        /// 涉及到 平方根公式 跟 三角形余弦定理  看图  3552e1ac1f284f68c6b868c4938298d6.png  b0bc7b262ee410192ad068a2ef05e10d.png
 
         float a = 1.0;
         float b = -2. * dot(samp, u_circleCenter) / sqrt(dot(samp, samp)) ;
