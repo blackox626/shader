@@ -1,3 +1,5 @@
+// https://www.shadertoy.com/view/ttSXDK
+
 #iChannel0 "file:///shadertoy4.png"
 
 #define D_MAX 255
