@@ -1,5 +1,5 @@
 
-#iChannel0 "file://followw813654.jpeg"
+#iChannel0 "file://image.jpeg"
 
 void main() {
 

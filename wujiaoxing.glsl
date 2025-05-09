@@ -17,7 +17,7 @@
 
 const float PI = 3.1415926;
 
-#iChannel0 "file://followw813654.jpeg"
+#iChannel0 "file://image.jpeg"
 #iChannel1 "file://mask.png"
 
 vec2 rotation(vec2 uv, float angle, float ratio)

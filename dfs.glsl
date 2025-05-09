@@ -1,6 +1,6 @@
 // https://www.shadertoy.com/view/ttSXDK
 
-#iChannel0 "file:///shadertoy4.png"
+#iChannel0 "file://image/shadertoy4.png"
 
 #define D_MAX 255
 const float D2 = float(D_MAX * 2 + 1);

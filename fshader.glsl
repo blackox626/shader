@@ -4,7 +4,7 @@
 
 // uniform lowp float intensity;
 
-#iChannel0 "file:///Users/blackox626/shader/followw813654.jpeg"
+#iChannel0 "file:///Users/blackox626/shader/image.jpeg"
 
 float v(in vec2 uv, float d, float o) {
     return 1.0-smoothstep(0.0, d, distance(uv.x,(uv.y)*0.3));

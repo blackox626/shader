@@ -9,8 +9,8 @@ precision highp float;
 // uniform sampler2D inputImageTexture;
 // uniform sampler2D inputImageTexture3;
 
-#iChannel0 "file://followw813654.jpeg"
-#iChannel1 "file://materialap-5ebd0000017b299d61670a20e47a-unadjust_512_512.png"
+#iChannel0 "file://image/image.jpeg"
+#iChannel1 "file://image/materialap-5ebd0000017b299d61670a20e47a-unadjust_512_512.png"
 
 #iUniform float offsetY = 0.5
 #iUniform float offsetX = 0.5

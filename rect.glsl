@@ -28,7 +28,7 @@ uniform float iPlatform_iOS;
 
 const float PI = 3.141592654;
 
-#iChannel0 "file://followw813654.jpeg"
+#iChannel0 "file://image.jpeg"
 
 void main(void) 
 {   

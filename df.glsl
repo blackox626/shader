@@ -1,4 +1,4 @@
-#iChannel0 "file://image.png"
+#iChannel0 "file://image/image.png"
 
 #define D_MAX 5
 const float D2 = float(D_MAX * 2 + 1);
