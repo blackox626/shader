@@ -1,4 +1,4 @@
-#iChannel0 "file://image.png"
+#iChannel0 "file://image/image.png"
 
 // 妖气/能量效果 Shader
 #define NUM_OCTAVES 5

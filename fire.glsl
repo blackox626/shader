@@ -1,4 +1,4 @@
-#iChannel0 "file://image.png"
+#iChannel0 "file://image/image.png"
 
 /**
  * @function random
